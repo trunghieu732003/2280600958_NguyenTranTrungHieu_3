@@ -20,7 +20,9 @@ namespace _2280600958_NguyenTranTrungHieu_3.Models.Repository
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products
+                                 .Include(p => p.Category) // Tải thông tin Category
+                                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task AddAsync(Product product)
