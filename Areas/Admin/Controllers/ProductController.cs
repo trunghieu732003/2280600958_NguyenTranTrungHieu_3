@@ -1,11 +1,15 @@
-﻿using _2280600958_NguyenTranTrungHieu_3.Models;
+﻿using _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Models;
+using _2280600958_NguyenTranTrungHieu_3.Models;
 using _2280600958_NguyenTranTrungHieu_3.Models.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 
-namespace _2280600958_NguyenTranTrungHieu_3.Controllers
+namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -23,10 +27,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Controllers
             var products = await _productRepository.GetAllAsync();
             return View(products);
         }
-
-
-
-
 
         // Hiển thị form thêm sản phẩm
         public async Task<IActionResult> Add()
