@@ -10,7 +10,6 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Models;
 using _2280600958_NguyenTranTrungHieu_3.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -89,10 +88,10 @@ namespace _2280600958_NguyenTranTrungHieu_3.Areas.Identity.Pages.Account
         {
             if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
             {
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Company));
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
             }
 
             Input = new InputModel

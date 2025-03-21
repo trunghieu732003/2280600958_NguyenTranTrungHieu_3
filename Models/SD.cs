@@ -1,4 +1,4 @@
-﻿namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Models
+﻿namespace _2280600958_NguyenTranTrungHieu_3.Models
 {
     public static class SD
     {
