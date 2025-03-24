@@ -80,6 +80,8 @@ namespace _2280600958_NguyenTranTrungHieu_3.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             public string? Role { get; set; }
+            public string? Gender { get; set; }
+
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
         }
@@ -116,6 +118,7 @@ namespace _2280600958_NguyenTranTrungHieu_3.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 user.FullName = Input.FullName;
+                user.Gender = Input.Gender; // Gán giá trị Giới tính
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);

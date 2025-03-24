@@ -1,9 +1,7 @@
-﻿using _2280600958_NguyenTranTrungHieu_3.Models;
-using _2280600958_NguyenTranTrungHieu_3.Models.Repository;
-using Microsoft.AspNetCore.Mvc;
+﻿using _2280600958_NguyenTranTrungHieu_3.Models.Repository;
+using _2280600958_NguyenTranTrungHieu_3.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Controllers
 {
@@ -72,39 +70,24 @@ namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Controllers
         }
 
         // Hiển thị form xác nhận xóa category
+        // Hiển thị form xác nhận xóa sản phẩm
         public async Task<IActionResult> Delete(int id)
         {
-            var category = await _categoryRepository.GetByIdAsync(id);
-            if (category == null)
+            var product = await _categoryRepository.GetByIdAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(product);
         }
 
-        // Xử lý xóa category
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int id)
+        // Xử lý xóa sản phẩm
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                var category = await _categoryRepository.GetByIdAsync(id);
-                if (category == null)
-                {
-                    return NotFound();
-                }
-
-                await _categoryRepository.DeleteAsync(id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // Log lỗi
-                Console.WriteLine($"Lỗi khi xóa category: {ex.Message}");
-                ModelState.AddModelError("", "Không thể xóa category. Vui lòng thử lại.");
-                return View("Delete", await _categoryRepository.GetByIdAsync(id)); // Hiển thị lại trang xác nhận xóa
-            }
+            await _categoryRepository.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
+
 }

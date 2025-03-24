@@ -1,4 +1,4 @@
-using _2280600958_NguyenTranTrungHieu_3.Models;
+﻿using _2280600958_NguyenTranTrungHieu_3.Models;
 using _2280600958_NguyenTranTrungHieu_3.Models.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 // Add services to the container.
+builder.Logging.AddConsole();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -21,7 +22,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
  .AddDefaultUI()
  .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.ConfigureApplicationCookie(options => {
+builder.Services.ConfigureApplicationCookie(options =>
+{
     options.LoginPath = $"/Identity/Account/Login";
     options.LogoutPath = $"/Identity/Account/Logout";
     options.LogoutPath = $"/Identity/Account/AccessDenied";
@@ -46,10 +48,14 @@ app.UseStaticFiles();
 app.MapStaticAssets();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllerRoute(
     name: "Admin",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "Customer",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

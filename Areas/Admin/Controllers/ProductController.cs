@@ -1,8 +1,8 @@
 ﻿using _2280600958_NguyenTranTrungHieu_3.Models.Repository;
 using _2280600958_NguyenTranTrungHieu_3.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Authorization;
 
 namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Controllers
 {
@@ -10,19 +10,15 @@ namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Controllers
     [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IProductRepository productRepository,
-                                ICategoryRepository categoryRepository,
-                                IWebHostEnvironment webHostEnvironment)
-        {
-            _productRepository = productRepository;
-            _categoryRepository = categoryRepository;
-            _webHostEnvironment = webHostEnvironment;
-        }
-
+       
+            private readonly IProductRepository _productRepository;
+            private readonly ICategoryRepository _categoryRepository;
+            public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
+            {
+                _productRepository = productRepository;
+                _categoryRepository = categoryRepository;
+            }
         // Hiển thị danh sách sản phẩm
         public async Task<IActionResult> Index()
         {
@@ -31,7 +27,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Areas.Admin.Controllers
         }
 
         // Hiển thị form thêm sản phẩm
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add()
         {
             var categories = await _categoryRepository.GetAllAsync();
