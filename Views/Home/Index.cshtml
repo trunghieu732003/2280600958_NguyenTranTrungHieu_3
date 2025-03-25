@@ -1,31 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Trang chủ | Shop Online";
+﻿@model IEnumerable<_2280600958_NguyenTranTrungHieu_3.Models.Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+	int numOfQuantity = 1;
 }
+<section class="py-2">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center ">
 
-<div class="container">
-    <div class="row">
-        <div class="col-12 text-center mb-5">
-            <h1 class="display-4 fw-bold">Chào mừng đến với Shop Online</h1>
-            <p class="lead">Nơi mua sắm trực tuyến uy tín với hàng nghìn sản phẩm chất lượng</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
-                <a href="/Identity/Account/Login" class="btn btn-primary btn-lg px-4 me-sm-3">Xem sản phẩm</a>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Phần khuyến mãi -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card bg-light">
-                <div class="card-body p-5 text-center">
-                    <h3 class="mb-3">Đăng ký nhận thông tin khuyến mãi</h3>
-                    <p class="mb-4">Nhận ngay mã giảm giá 10% cho đơn hàng đầu tiên khi đăng ký!</p>
-                    <div class="d-flex justify-content-center">
-                        <a href="/Identity/Account/Register" class="btn btn-primary">Đăng ký</a>
+            @foreach (var item in Model)
+            {
+                <div class="col mb-5">
+                    <div class="card gap-3" style="width: 18rem">
+                        <img src="@item.ImageUrl" class="card-img-top" alt="..."
+                             style="height: 300px">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                @Html.DisplayFor(modelItem =>item.Name)
+                            </h5>
+                            <div class="d-flex">
+                                <span>Price: </span>
+                                <p class="mx-3">@item.Price.ToString("#,##0") Vnđ</p>
+                            </div>
+                            <a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productID="@item.Id"
+                               asp-route-quantity =" @numOfQuantity">
+                                <button class="btn btn-outline-dark"> <i class="bi-cart-fill me-1"></i> Add to Cart </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
-</div>
+</section>

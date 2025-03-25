@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _2280600958_NguyenTranTrungHieu_3.Models;
 
@@ -11,13 +12,15 @@ using _2280600958_NguyenTranTrungHieu_3.Models;
 namespace _2280600958_NguyenTranTrungHieu_3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325015923_initialOrder")]
+    partial class initialOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -233,37 +236,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.CartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShoppingCartId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShoppingCartId");
-
-                    b.ToTable("CartItems");
-                });
-
             modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -399,25 +371,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.ShoppingCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ShoppingCarts");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -467,17 +420,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.CartItem", b =>
-                {
-                    b.HasOne("_2280600958_NguyenTranTrungHieu_3.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("Items")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.Order", b =>
@@ -532,17 +474,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.ShoppingCart", b =>
-                {
-                    b.HasOne("_2280600958_NguyenTranTrungHieu_3.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-                });
-
             modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -556,11 +487,6 @@ namespace _2280600958_NguyenTranTrungHieu_3.Migrations
             modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.Product", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("_2280600958_NguyenTranTrungHieu_3.Models.ShoppingCart", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
