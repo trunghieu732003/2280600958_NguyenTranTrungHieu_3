@@ -1,28 +1,14 @@
 ﻿@model Order
-@{
-    ViewData["Title"] = "Thanh toán";
-}
 
-<h2>Thông tin thanh toán</h2>
-
-<form asp-action="Checkout" method="post">
-    <div class="form-group">
-        <label asp-for="ShippingAddress">Địa chỉ giao hàng *</label>
-        <input asp-for="ShippingAddress" class="form-control" required />
-        <span asp-validation-for="ShippingAddress" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Notes">Ghi chú</label>
-        <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-        <h4 class="text-danger">Tổng thanh toán: @ViewBag.TotalPrice.ToString("#,##0")) VNĐ</h4>
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary mr-2">Xác nhận đặt hàng</button>
-        <a asp-action="Index" class="btn btn-secondary">Quay lại giỏ hàng</a>
-    </div>
+<h2>Checkout</h2> 
+<form asp-action="Checkout" method="post"> 
+<div class="form-group"> 
+<label asp-for="ShippingAddress">Shipping Address</label> 
+<input asp-for="ShippingAddress" class="form-control" /> 
+</div> 
+<div class="form-group"> 
+<label asp-for="Notes">Notes</label>
+<textarea asp-for="Notes" class="form-control"></textarea>
+	</div>
+	<button type="submit" class="btn btn-primary">Place Order</button>
 </form>

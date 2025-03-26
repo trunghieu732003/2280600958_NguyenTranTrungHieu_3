@@ -81,32 +81,47 @@ namespace _2280600958_NguyenTranTrungHieu_3.Controllers
 
         public IActionResult Checkout()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart");
-            if (cart == null || !cart.Items.Any()) return RedirectToAction("Index");
-            ViewBag.TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity);
             return View(new Order());
         }
 
         [HttpPost]
         public async Task<IActionResult> Checkout(Order order)
         {
-            var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart");
-            if (cart == null || !cart.Items.Any()) return RedirectToAction("Index");
+            var userId = _userManager.GetUserId(User);
+            var cart = await _context.ShoppingCarts
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
+            if (cart == null || cart.Items == null || !cart.Items.Any())
+                return RedirectToAction("Index");
 
-            order.UserId = user.Id;
-            order.OrderDate = DateTime.UtcNow;
-            order.TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity);
-            order.OrderDetails = cart.Items.Select(i => new OrderDetail { ProductId = i.ProductId, Quantity = i.Quantity, Price = i.Price }).ToList();
+            // Tạo đơn hàng mới
+            var newOrder = new Order
+            {
+                UserId = userId,
+                OrderDate = DateTime.UtcNow,
+                TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity),
+                OrderDetails = cart.Items.Select(i => new OrderDetail
+                {
+                    ProductId = i.ProductId,
+                    Quantity = i.Quantity,
+                    Price = i.Price
+                }).ToList(),
+                ShippingAddress = order.ShippingAddress,
+                Notes = order.Notes
+            };
 
-            _context.Orders.Add(order);
+            _context.Orders.Add(newOrder);
             await _context.SaveChangesAsync();
-            HttpContext.Session.Remove("Cart");
 
-            return View("OrderCompleted", order.Id);
+            // ✅ XÓA toàn bộ giỏ hàng sau khi đặt hàng
+            _context.ShoppingCarts.Remove(cart);
+            await _context.SaveChangesAsync();
+
+            return View("OrderCompleted", newOrder.Id);
         }
+
+
 
         public IActionResult OrderCompleted(int orderId)
         {
